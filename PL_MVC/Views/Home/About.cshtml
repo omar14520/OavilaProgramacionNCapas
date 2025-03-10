@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Ovni</title>
+    <style>
+        .cara {
+            width: 550px;
+            height: 550px;
+            background-color: lawngreen;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 50px auto;
+        }
+
+        .ojo {
+            width: 200px;
+            height: 200px;
+            background-color: dimgray;
+            border-radius: 50%;
+            position: absolute;
+            top: 135px;
+        }
+
+            .ojo.izquierda {
+                left: 5px;
+            }
+
+            .ojo.derecha {
+                right: 5px;
+            }
+
+        .boca {
+            width: 150px;
+            height: 50px;
+            border-bottom: 50px solid black;
+            position: absolute;
+            bottom: 30px;
+            border-radius: 500px;
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cara">
+        <div class="ojo izquierda"></div>
+        <div class="ojo derecha"></div>
+        <div class="boca"></div>
+    </div>
+
+</body>
+</html>
