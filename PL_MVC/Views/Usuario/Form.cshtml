@@ -56,7 +56,7 @@
         @Html.LabelFor(model => model.Password, new { @class = "fs-3" })
     </div>
     <div>
-        @Html.PasswordFor(model => model.Password, new { @id = "password", @class = "form-control", @onblur = "ValContra(event)", @style = "background:#33fff6" })
+        @Html.PasswordFor(model => model.Password, new { @id = "confirmpassword", @class = "form-control", @onblur = "ValContra(event)", @style = "background:#33fff6" })
         @Html.ValidationMessageFor(Model => Model.Password, "", new { @class = "text-danger" })
         <span class="error"></span>
     </div>

@@ -170,6 +170,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JavaScriptController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -257,6 +258,7 @@
     <Content Include="Views\Usuario\Form.cshtml" />
     <Content Include="Views\Usuario\_Modal.cshtml" />
     <Content Include="Views\Usuario\_Mensajes.cshtml" />
+    <Content Include="Views\JavaScript\GetAllForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
