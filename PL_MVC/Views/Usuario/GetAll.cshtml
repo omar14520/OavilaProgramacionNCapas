@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "GetAll";
     Layout = "/Views/Shared/_Layout.cshtml";
+    var errores = ViewBag.Errores;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 }
 <h2>Usuarios</h2>
@@ -14,142 +15,158 @@
             <div class=" col">
                 <div class="table-responsive">
                     <a href="@Url.Action("Form", "Usuario")" class="btn btn-success"><i class="bi bi-person-fill-add"></i>  Agregar Registro</a>
+                    @using (Html.BeginForm("CargaMasiva", "Usuario", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                    {
+                        <details>
+                            <input type="file" name="Excel" />
+
+                            <!-- Cambiar el texto del botón dependiendo del estado -->
+                            @if (Session["RutaExcel"] != null)
+                            {
+                                <button type="submit" class="btn btn-outline-secondary">Insertar</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-outline-secondary">Validar y Leer</button>
+                            }
+                        </details>
+                    }
                     @using (Html.BeginForm("GetAll", "Usuario", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                     {
                         <details>
                             <sumary>Buscar</sumary>
-                        <div class="row">
-                            <div class="mb-3">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.Nombre, new { @class = "fs-5", name = "Nombre" })
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="col-md-12">
-                                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @onkeypress = "SoloLetras(event)" })
-                                    <span class="error"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.ApellidoPaterno, new { @class = "fs-5", name = "ApellidoPaterno" })
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="col-md-12">
-                                    @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @onkeypress = "SoloLetras(event)" })
-                                    <span class="error"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.ApellidoMaterno, new { @class = "fs-5", name = "ApellidoMaterno" })
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="col-md-12">
-                                    @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @onkeypress = "SoloLetras(event)" })
-                                    <span class="error"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.Rol.IdRol, new { @class = "fs-5", name = "IdRol" })
-                                </div>
-                            </div>
-                            <div class="col">
-                                @Html.LabelFor(model => model.Rol)
-                            </div>
-                            <div>
-                                @Html.DropDownListFor(model => model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "Nombre", Model.IdUsuario), "Selecciona una opcion", new { @class = "input-group mb-3 " })
-                            </div>
                             <div class="row">
-                                <div class=" col">
-                                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i>BUSCAR</button>
+                                <div class="mb-3">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.Nombre, new { @class = "fs-5", name = "Nombre" })
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @onkeypress = "SoloLetras(event)" })
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.ApellidoPaterno, new { @class = "fs-5", name = "ApellidoPaterno" })
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @onkeypress = "SoloLetras(event)" })
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.ApellidoMaterno, new { @class = "fs-5", name = "ApellidoMaterno" })
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @onkeypress = "SoloLetras(event)" })
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.Rol.IdRol, new { @class = "fs-5", name = "IdRol" })
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    @Html.LabelFor(model => model.Rol)
+                                </div>
+                                <div>
+                                    @Html.DropDownListFor(model => model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "Nombre", Model.IdUsuario), "Selecciona una opcion", new { @class = "input-group mb-3 " })
+                                </div>
+                                <div class="row">
+                                    <div class=" col">
+                                        <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i>BUSCAR</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                     </details>
+                        </details>
                     }
-                        <table class="table">
-                            <thead>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="table-danger">Estatus</th>
+                                <th class="table-success">Editar</th>
+                                <th class="table-success">Delete</th>
+                                <th class="table-light">Imagen</th>
+                                <th class="table-secondary">UserName</th>
+                                <th class="table-secondary">Nombre</th>
+                                <th class="table-success">ApellidoPaterno</th>
+                                <th class="table-danger">ApellidoMaterno</th>
+                                <th class="table-warning">Email</th>
+                                <th class="table-info">Password</th>
+                                <th class="table-light">FechaNacimiento</th>
+                                <th class="table-dark">Sexo</th>
+                                <th class="table-primary">Telefono</th>
+                                <th class="table-secondary">Celular</th>
+                                <th class="table-secondary">Curp</th>
+                                <th class="table-dark">Rol</th>
+                                <th class="table-secondary">Direccion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (ML.Usuario usuario in Model.Usuarios)
+                            {
                                 <tr>
-                                    <th class="table-danger">Estatus</th>
-                                    <th class="table-success">Editar</th>
-                                    <th class="table-success">Delete</th>
-                                    <th class="table-light">Imagen</th>
-                                    <th class="table-secondary">UserName</th>
-                                    <th class="table-secondary">Nombre</th>
-                                    <th class="table-success">ApellidoPaterno</th>
-                                    <th class="table-danger">ApellidoMaterno</th>
-                                    <th class="table-warning">Email</th>
-                                    <th class="table-info">Password</th>
-                                    <th class="table-light">FechaNacimiento</th>
-                                    <th class="table-dark">Sexo</th>
-                                    <th class="table-primary">Telefono</th>
-                                    <th class="table-secondary">Celular</th>
-                                    <th class="table-secondary">Curp</th>
-                                    <th class="table-dark">Rol</th>
-                                    <th class="table-secondary">Direccion</th>
+                                    <td>
+                                        @if (usuario.Estatus)
+                                        {
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onchange="CambioStatus(@usuario.IdUsuario,this)" />
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onchange="CambioStatus(this)" />
+                                            </div>
+                                        }
+                                    </td>
+                                    <td class="table-primary">
+                                        <a href="@Url.Action("form","Usuario", new { IdUsuario = usuario.IdUsuario })" class="btn btn-warning"><i class="badge text-bg-success"></i>Editar</a>
+                                    </td>
+                                    <td class="table-primary">
+                                        <a href="@Url.Action("Delete", "Usuario", new { IdUsuario = usuario.IdUsuario })" class="btn btn-danger" onclick="return confirm('Seguro quiere Eliminar este usuario?')"> <i class="bi bi-person-x"> </i>Eliminar</a>
+                                    </td>
+                                    <td>
+                                        @if (usuario.Imagen != null)
+                                        {
+                                            <img class="img" src="data:image/*;base64, @Convert.ToBase64String(usuario.Imagen)" width="50" , height="50" />
+
+                                        }
+                                        else
+                                        {
+                                            <img id="inptFileImagen" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr5dsAGEvu7dG3LF3t7F-lx3SgxKdjjd5HIg&s.png"
+                                                 class="rounded mx-auto d-block" width="50" height="50" />
+                                        }
+                                    </td>
+                                    <td class="table-secondary">@usuario.UserName</td>
+                                    <td class="table-secondary">@usuario.Nombre</td>
+                                    <td class="table-success">@usuario.ApellidoPaterno</td>
+                                    <td class="table-danger">@usuario.ApellidoMaterno</td>
+                                    <td class="table-warning">@usuario.Email</td>
+                                    <td class="table-info">@usuario.Password</td>
+                                    <td class="table-light">@usuario.FechaNacimiento</td>
+                                    <td class="table-dark">@usuario.Sexo</td>
+                                    <td class="table-primary">@usuario.Telefono</td>
+                                    <td class="table-secondary">@usuario.Celular</td>
+                                    <td class="table-secondary">@usuario.Curp</td>
+                                    <td class="table-dark">@usuario.Rol.Nombre</td>
+                                    <th class="table-secondary">@usuario.Direccion.Calle, @usuario.Direccion.NumeroInterior, @usuario.Direccion.NumeroExterior</th>
+                                    <td class="table-primary">
+                                    </td>
+
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (ML.Usuario usuario in Model.Usuarios)
-                                {
-                                    <tr>
-                                        <td>
-                                            @if (usuario.Estatus)
-                                            {
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onchange="CambioStatus(@usuario.IdUsuario,this)" />
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onchange="CambioStatus(this)" />
-                                                </div>
-                                            }
-                                        </td>
-                                        <td class="table-primary">
-                                            <a href="@Url.Action("form","Usuario", new { IdUsuario = usuario.IdUsuario })" class="btn btn-warning"><i class="badge text-bg-success"></i>Editar</a>
-                                        </td>
-                                        <td class="table-primary">
-                                            <a href="@Url.Action("Delete", "Usuario", new { IdUsuario = usuario.IdUsuario })" class="btn btn-danger" onclick="return confirm('Seguro quiere Eliminar este usuario?')"> <i class="bi bi-person-x"> </i>Eliminar</a>
-                                        </td>
-                                        <td>
-                                            @if (usuario.Imagen != null)
-                                            {
-                                                <img class="img" src="data:image/*;base64, @Convert.ToBase64String(usuario.Imagen)" width="50" , height="50" />
-
-                                            }
-                                            else
-                                            {
-                                                <img id="inptFileImagen" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr5dsAGEvu7dG3LF3t7F-lx3SgxKdjjd5HIg&s.png"
-                                                     class="rounded mx-auto d-block" width="50" height="50" />
-                                            }
-                                        </td>
-                                        <td class="table-secondary">@usuario.UserName</td>
-                                        <td class="table-secondary">@usuario.Nombre</td>
-                                        <td class="table-success">@usuario.ApellidoPaterno</td>
-                                        <td class="table-danger">@usuario.ApellidoMaterno</td>
-                                        <td class="table-warning">@usuario.Email</td>
-                                        <td class="table-info">@usuario.Password</td>
-                                        <td class="table-light">@usuario.FechaNacimiento</td>
-                                        <td class="table-dark">@usuario.Sexo</td>
-                                        <td class="table-primary">@usuario.Telefono</td>
-                                        <td class="table-secondary">@usuario.Celular</td>
-                                        <td class="table-secondary">@usuario.Curp</td>
-                                        <td class="table-dark">@usuario.Rol.Nombre</td>
-                                        <th class="table-secondary">@usuario.Direccion.Calle, @usuario.Direccion.NumeroInterior, @usuario.Direccion.NumeroExterior</th>
-                                        <td class="table-primary">
-                                        </td>
-
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
+                </div>
                     </div>
                     </div>
     </div>
